@@ -1,0 +1,22 @@
+name: W3C HTML Validation
+
+on:
+  push:
+    paths:
+      - 'index.html'
+      - '.github/workflows/**'
+  pull_request:
+    paths:
+      - 'index.html'
+
+jobs:
+  validate:
+    name: Validate HTML with W3C validator
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run W3C Validator Docker image
+        run: |
+          docker run --rm -v "${{ github.workspace }}:/data" validator/validator:latest /data/index.html
